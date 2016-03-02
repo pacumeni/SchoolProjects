@@ -14,8 +14,29 @@ var x = canvas.width/ 2,
     paddleX = (canvas.width - paddleWidth)/ 2,
     rightArrowPressed = false,
     leftArrowPressed = false,
-    brickRows = 8,
-    brickColumns = 14;
+    /*
+     bottom -> up:
+     two rows of yellow, two rows of orange, two rows of blue, and two rows of green.
+
+     Have a small space between each of the rows and bricks
+     */
+    brickRowCount = 8,
+    brickColumnCount = 14,
+    brickWidth = 30,
+    brickHeight = 10,
+    brickPadding = 5,
+    brickOffsetTop = 30,
+    brickOffsetLeft = 7,
+    bricks = [];
+
+for(var c = 0; c < brickColumnCount; c++){
+    bricks[c] = [];
+    for(var r = 0; r < brickRowCount; r++){
+        bricks[c][r] = {x: 0, y: 0};
+    }
+}
+
+
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -54,6 +75,30 @@ function drawPaddle(){
     ctx.closePath();
 }
 
+function drawBricks(){
+    for(var c = 0; c < brickColumnCount; c++){
+        for(var r = 0; r < brickRowCount; r++){
+            var brickX = (c*(brickWidth + brickPadding)) + brickOffsetLeft;
+            var brickY = (r*(brickHeight + brickPadding))+ brickOffsetTop;
+            bricks[c][r].x = brickX;
+            bricks[c][r].y = brickY;
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            if(r < 2){
+                ctx.fillStyle = "green";
+            }else if(r >= 2 && r < 4) {
+                ctx.fillStyle = "blue";
+            }else if(r >= 4 && r < 6){
+                ctx.fillStyle = "orange";
+            }else {
+                ctx.fillStyle = "yellow";
+            }
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+}
+
 /*function gameLoop(){
     update();
     render();
@@ -62,6 +107,7 @@ function drawPaddle(){
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBricks();
     drawBall();
     drawPaddle();
 

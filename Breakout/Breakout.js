@@ -20,10 +20,10 @@ function drawBall(){
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if(y + dy < 0 || y + dy > canvas.height){
+    if(y + dy < ballRadius || y + dy > canvas.height - ballRadius){
         dy = -dy;
     }
-    if(x + dx < 0 || x + dx > canvas.height){
+    if(x + dx < ballRadius || x + dx > canvas.height - ballRadius){
         dx = -dx;
     }
     drawBall();

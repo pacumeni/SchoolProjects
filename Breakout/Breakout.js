@@ -31,7 +31,16 @@ var x = canvas.width/ 2,
 for(var c = 0; c < brickColumnCount; c++){
     bricks[c] = [];
     for(var r = 0; r < brickRowCount; r++) {
-        bricks[c][r] = {x: 0, y: 0, status: 1, value: 0};
+        bricks[c][r] = {x: 0, y: 0, status: 1, val: 0};
+        if (r < 2){
+            bricks[c][r].val = 5;
+        } else if (r >= 2 && r < 4) {
+            bricks[c][r].val = 3;
+        } else if (r >= 4 && r < 6) {
+            bricks[c][r].val = 2;
+        } else {
+            bricks[c][r].val = 1;
+        }
     }
 }
 
@@ -100,20 +109,14 @@ function drawBricks(){
                bricks[c][r].y = brickY;
                ctx.beginPath();
                ctx.rect(brickX, brickY, brickWidth, brickHeight);
-               //right now it's going through the loop and assigning the brick value to all of them, but not
-               //individually. It first assigns them 5, then 3, then 2, then 1 and that is where their value
-               // is staying. I need to change it so that it only changes by the row they are in.
+               //fixed scoring so that every brick now has a value. Need to fix it so that I can do values for the row.
                if (r < 2) {
-                   bricks.value = 5;
                    ctx.fillStyle = "green";
                } else if (r >= 2 && r < 4) {
-                   bricks.value = 3;
                    ctx.fillStyle = "blue";
                } else if (r >= 4 && r < 6) {
-                   bricks.value = 2;
                    ctx.fillStyle = "orange";
                } else {
-                   bricks.value = 1;
                    ctx.fillStyle = "yellow";
                }
                ctx.fill();
@@ -132,7 +135,7 @@ function collisionDetection(){
                     dy = -dy;
                     b.status = 0;
                     //this is where I keep track of score. This needs to modified so that it does more than one per brick.
-                    score++;
+                    score += b.val;
                     //score += b.value;
                 }
             }

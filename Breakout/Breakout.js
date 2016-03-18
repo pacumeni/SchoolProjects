@@ -14,6 +14,9 @@ var x = canvas.width/ 2,
     paddleX = (canvas.width - paddleWidth)/ 2,
     rightArrowPressed = false,
     leftArrowPressed = false,
+    upArrowPressed = false,
+    downArrowPressed = false,
+    escapePressed = false,
     /*
      bottom -> up:
      two rows of yellow, two rows of orange, two rows of blue, and two rows of green.
@@ -48,6 +51,15 @@ function keyDownHandler(e){
     if(e.keyCode == 37){
         leftArrowPressed = true;
     }
+    if(e.keyCode == 27){
+        escapePressed = true;
+    }
+    if(e.keyCode == 38){
+        upArrowPressed = true;
+    }
+    if(e.keyCode == 40){
+        downArrowPressed = true;
+    }
 }
 
 function keyUpHandler(e){
@@ -56,6 +68,15 @@ function keyUpHandler(e){
     }
     if(e.keyCode == 37){
         leftArrowPressed = false;
+    }
+    if(e.keyCode == 27){
+        escapePressed = false;
+    }
+    if(e.keyCode == 38){
+        upArrowPressed = false;
+    }
+    if(e.keyCode == 40){
+        downArrowPressed = false;
     }
 }
 
@@ -106,7 +127,7 @@ function collisionDetection(){
         for(r = 0; r < brickRowCount; r++){
             var b = bricks[c][r];
             if(b.status == 1) {
-                if (x + ballRadius > b.x && x - ballRadius < b.x + brickWidth && y + ballRadius > b.y && y - ballRadius < b.y + brickHeight) {
+                if (x > b.x && x - ballRadius < b.x + brickWidth && y + ballRadius > b.y && y - ballRadius < b.y + brickHeight) {
                     dy = -dy;
                     b.status = 0;
                 }
@@ -114,12 +135,6 @@ function collisionDetection(){
         }
     }
 }
-
-/*function gameLoop(){
-    update();
-    render();
-    requestAnimationFrame(gameLoop);
-}*/
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -135,8 +150,8 @@ function draw(){
     //ball bouncing off top wall, collision with paddle, else game over
     if(y + dy < ballRadius){
         dy = -dy;
-    }else if (y + dy > canvas.height - ballRadius){
-        if(x > paddleX && x < paddleX + paddleWidth){
+    }else if (y + dy > canvas.height - ballRadius){ // this needs to be fixed. Does not reflect hitting top of paddle.
+        if(x > paddleX - 1 && x < paddleX + paddleWidth + 1){
             dy = -dy;
         }else{
             alert("Game Over");
@@ -152,6 +167,23 @@ function draw(){
 
     x += dx;
     y += dy;
+    requestAnimationFrame(draw);
 }
 
-setInterval(draw, 10);
+function highScores(){
+    document.getElementById("highScores").style.display = "block";
+    if(escapePressed){
+        document.getElementById("highScores").style.display = "none";
+        return
+    }
+    requestAnimationFrame(highScores);
+}
+
+function showCredits() {
+    if (escapePressed){
+        document.getElementById("Credits").style.display = "none";
+        return;
+    } else
+        document.getElementById("Credits").style.display = "block";
+    requestAnimationFrame(showCredits);
+}

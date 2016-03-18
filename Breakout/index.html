@@ -9,8 +9,24 @@
     </style>
 </head>
 <body>
+    <div id = "StartScreen">
+        <h1>Breakout</h1>
+        <button type="button" onclick="draw()">New Game</button>
+        <button type="button" onclick="highScores()">High Scores</button>
+        <button type="button" onclick="showCredits()">Credits</button>
+    </div>
+
+    <div id = "highScores" style="display: none;">
+        <p>High Scores: </p>
+    </div>
+
+    <div id = "Credits" style="display: none;">
+        <p>Creator: Whipple Walter</p>
+    </div>
+
     <canvas id="myCanvas" width="500" height="400"></canvas>
 
-    <script type = "text/javascript" src = "Breakout.js"></script>
+    <script src = "Breakout.js"></script>
+
 </body>
 </html>

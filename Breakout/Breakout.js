@@ -17,12 +17,6 @@ var x = canvas.width/ 2,
     upArrowPressed = false,
     downArrowPressed = false,
     escapePressed = false,
-    /*
-     bottom -> up:
-     two rows of yellow, two rows of orange, two rows of blue, and two rows of green.
-
-     Have a small space between each of the rows and bricks
-     */
     brickRowCount = 8,
     brickColumnCount = 14,
     brickWidth = 30,
@@ -30,16 +24,16 @@ var x = canvas.width/ 2,
     brickPadding = 5,
     brickOffsetTop = 30,
     brickOffsetLeft = 7,
-    bricks = [];
+    bricks = [],
+    score = 0;
 
+//this is just creating brick array
 for(var c = 0; c < brickColumnCount; c++){
     bricks[c] = [];
-    for(var r = 0; r < brickRowCount; r++){
-        bricks[c][r] = {x: 0, y: 0, status: 1};
+    for(var r = 0; r < brickRowCount; r++) {
+        bricks[c][r] = {x: 0, y: 0, status: 1, value: 0};
     }
 }
-
-
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -106,13 +100,20 @@ function drawBricks(){
                bricks[c][r].y = brickY;
                ctx.beginPath();
                ctx.rect(brickX, brickY, brickWidth, brickHeight);
+               //right now it's going through the loop and assigning the brick value to all of them, but not
+               //individually. It first assigns them 5, then 3, then 2, then 1 and that is where their value
+               // is staying. I need to change it so that it only changes by the row they are in.
                if (r < 2) {
+                   bricks.value = 5;
                    ctx.fillStyle = "green";
                } else if (r >= 2 && r < 4) {
+                   bricks.value = 3;
                    ctx.fillStyle = "blue";
                } else if (r >= 4 && r < 6) {
+                   bricks.value = 2;
                    ctx.fillStyle = "orange";
                } else {
+                   bricks.value = 1;
                    ctx.fillStyle = "yellow";
                }
                ctx.fill();
@@ -130,10 +131,19 @@ function collisionDetection(){
                 if (x > b.x && x - ballRadius < b.x + brickWidth && y + ballRadius > b.y && y - ballRadius < b.y + brickHeight) {
                     dy = -dy;
                     b.status = 0;
+                    //this is where I keep track of score. This needs to modified so that it does more than one per brick.
+                    score++;
+                    //score += b.value;
                 }
             }
         }
     }
+}
+
+function drawScore(){
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Score: " + score, 8, 20);
 }
 
 function draw(){
@@ -141,6 +151,7 @@ function draw(){
     drawBricks();
     drawBall();
     drawPaddle();
+    drawScore();
     collisionDetection();
 
     //ball bouncing off left and right walls
@@ -154,8 +165,8 @@ function draw(){
         if(x > paddleX - 1 && x < paddleX + paddleWidth + 1){
             dy = -dy;
         }else{
+            //I need to fix this so that I have lives and also so that It doesn't look so lame.
             alert("Game Over");
-            document.location.reload();
         }
     }
 

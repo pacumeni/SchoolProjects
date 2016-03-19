@@ -25,7 +25,9 @@ var x = canvas.width/ 2,
     brickOffsetTop = 30,
     brickOffsetLeft = 7,
     bricks = [],
-    score = 0;
+    score = 0,
+    lives = 3,
+    statusCount = 0;
 
 //this is just creating brick array
 for(var c = 0; c < brickColumnCount; c++){
@@ -134,6 +136,7 @@ function collisionDetection(){
                 if (x > b.x && x - ballRadius < b.x + brickWidth && y + ballRadius > b.y && y - ballRadius < b.y + brickHeight) {
                     dy = -dy;
                     b.status = 0;
+                    statusCount += 1;
                     //this is where I keep track of score. This needs to modified so that it does more than one per brick.
                     score += b.val;
                     //score += b.value;
@@ -149,12 +152,20 @@ function drawScore(){
     ctx.fillText("Score: " + score, 8, 20);
 }
 
+function displayLives(){
+    //this needs to be changed to an image array instead.
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+}
+
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
     drawPaddle();
     drawScore();
+    displayLives();
     collisionDetection();
 
     //ball bouncing off left and right walls
@@ -168,8 +179,20 @@ function draw(){
         if(x > paddleX - 1 && x < paddleX + paddleWidth + 1){
             dy = -dy;
         }else{
+            lives--;
+            if(!lives){
+                // need to write in the canvas. Game Over. and allow the game to reset
+                alert("Game Over");
+                document.location.reload();
+            }else{
+                x = canvas.width/2;
+                y = canvas.height-30;
+                dx = 3;
+                dy = -3;
+                paddleX = (canvas.width - paddleWidth)/2;
+            }
             //I need to fix this so that I have lives and also so that It doesn't look so lame.
-            alert("Game Over");
+
         }
     }
 
@@ -177,6 +200,13 @@ function draw(){
         paddleX += 4;
     }else if(leftArrowPressed && paddleX > 0){
         paddleX -= 4;
+    }
+
+    //this statement works for now, but it should be improved. It is very clunky as is. Also, if you die, the speed
+    //does not stay the same which is what the teacher wants I believe.
+    if(statusCount == 4 || statusCount == 12 || statusCount == 36 || statusCount == 62) {
+        dx += 1;
+        dy += 1;
     }
 
     x += dx;

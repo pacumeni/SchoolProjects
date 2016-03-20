@@ -6,8 +6,8 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var x = canvas.width/ 2,
     y = canvas.height-30,
-    dx = 2,
-    dy = -2,
+    dx = 4,
+    dy = -4,
     ballRadius = 5,
     paddleHeight = 7,
     paddleWidth = 75,
@@ -27,7 +27,8 @@ var x = canvas.width/ 2,
     bricks = [],
     score = 0,
     lives = 3,
-    statusCount = 0;
+    statusCount = 0,
+    lastRowHit = false;
 
 //this is just creating brick array
 for(var c = 0; c < brickColumnCount; c++){
@@ -128,6 +129,16 @@ function drawBricks(){
     }
 }
 
+function isLastRowHit(){
+    if(lastRowHit == true){
+        return;
+    }
+    if(bricks[c][0].status == 0){
+        paddleWidth = paddleWidth / 2;
+        lastRowHit = true;
+    }
+}
+
 function collisionDetection(){
     for(c = 0; c < brickColumnCount; c++){
         for(r = 0; r < brickRowCount; r++){
@@ -137,9 +148,10 @@ function collisionDetection(){
                     dy = -dy;
                     b.status = 0;
                     statusCount += 1;
-                    //this is where I keep track of score. This needs to modified so that it does more than one per brick.
+                    //this is where I keep track of score.
                     score += b.val;
-                    //score += b.value;
+                    //this statement is to reduce the size of the paddle if you break through the last green row.
+                    isLastRowHit();
                 }
             }
         }
@@ -159,8 +171,43 @@ function displayLives(){
     ctx.fillText("Lives: "+lives, canvas.width-65, 20);
 }
 
+//function countdown(){
+
+    ///Countdown isn't working right now because I can't get the timing down. I need to make it so that I can wait in
+    ///the for loop allowing the number to persist for a couple of seconds before the canvas gets cleared for another
+    /// number.
+
+
+
+
+
+    /*var count = 3;
+    function loop() {
+        var ans = String(count);
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText(ans, canvas.width / 2, canvas.height / 2);
+        setTimeout(function () {
+            count -= 1;
+            if (count > 0) {
+                ctx.clearRect(canvas.width/2, canvas.height/2, 20, 20)
+                loop();
+            }
+        }, 1000);
+    }
+
+    loop();*/
+    /*for (count = 3; count > 0; count--) {
+        var ans = String(count);
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText(ans, canvas.width / 2 + (10*count), canvas.height / 2);
+    }*/
+//}
+
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //countdown();
     drawBricks();
     drawBall();
     drawPaddle();
@@ -191,8 +238,6 @@ function draw(){
                 dy = -3;
                 paddleX = (canvas.width - paddleWidth)/2;
             }
-            //I need to fix this so that I have lives and also so that It doesn't look so lame.
-
         }
     }
 
@@ -204,10 +249,10 @@ function draw(){
 
     //this statement works for now, but it should be improved. It is very clunky as is. Also, if you die, the speed
     //does not stay the same which is what the teacher wants I believe.
-    if(statusCount == 4 || statusCount == 12 || statusCount == 36 || statusCount == 62) {
+   /* if(statusCount == 4 || statusCount == 12 || statusCount == 36 || statusCount == 62) {
         dx += 1;
         dy += 1;
-    }
+    }*/
 
     x += dx;
     y += dy;

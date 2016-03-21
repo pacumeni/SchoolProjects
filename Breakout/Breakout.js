@@ -28,7 +28,15 @@ var x = canvas.width/ 2,
     score = 0,
     lives = 3,
     statusCount = 0,
-    lastRowHit = false;
+    lastRowHit = false,
+    rowOneCleared = false,
+    rowTwoCleared = false,
+    rowThreeCleared = false,
+    rowFourCleared = false,
+    rowFiveCleared = false,
+    rowSixCleared = false,
+    rowSevenCleared = false,
+    rowEightCleared = false;
 
 //this is just creating brick array
 for(var c = 0; c < brickColumnCount; c++){
@@ -94,6 +102,14 @@ function drawBall(){
     ctx.closePath();
 }
 
+/*function drawSecondBall(){
+    var that = drawBall();
+    that.locationStart = function() {
+        paddleX - ballRadius;
+    };
+    return that;
+}*/
+
 function drawPaddle(){
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
@@ -139,6 +155,182 @@ function isLastRowHit(){
     }
 }
 
+function isRowOneCleared(){
+    if(rowOneCleared == true)
+        return;
+    if( bricks[0][7].status == 0 &&
+        bricks[1][7].status == 0 &&
+        bricks[2][7].status == 0 &&
+        bricks[3][7].status == 0 &&
+        bricks[4][7].status == 0 &&
+        bricks[5][7].status == 0 &&
+        bricks[6][7].status == 0 &&
+        bricks[7][7].status == 0 &&
+        bricks[8][7].status == 0 &&
+        bricks[9][7].status == 0 &&
+        bricks[10][7].status == 0 &&
+        bricks[11][7].status == 0 &&
+        bricks[12][7].status == 0 &&
+        bricks[13][7].status == 0){
+        score += 25;
+        rowOneCleared = true;
+    }
+}
+
+function isRowTwoCleared(){
+    if(rowTwoCleared == true)
+        return;
+    if( bricks[0][6].status == 0 &&
+        bricks[1][6].status == 0 &&
+        bricks[2][6].status == 0 &&
+        bricks[3][6].status == 0 &&
+        bricks[4][6].status == 0 &&
+        bricks[5][6].status == 0 &&
+        bricks[6][6].status == 0 &&
+        bricks[7][6].status == 0 &&
+        bricks[8][6].status == 0 &&
+        bricks[9][6].status == 0 &&
+        bricks[10][6].status == 0 &&
+        bricks[11][6].status == 0 &&
+        bricks[12][6].status == 0 &&
+        bricks[13][6].status == 0){
+        score += 25;
+        rowTwoCleared = true;
+    }
+}
+
+function isRowThreeCleared(){
+    if(rowThreeCleared == true)
+        return;
+    if( bricks[0][5].status == 0 &&
+        bricks[1][5].status == 0 &&
+        bricks[2][5].status == 0 &&
+        bricks[3][5].status == 0 &&
+        bricks[4][5].status == 0 &&
+        bricks[5][5].status == 0 &&
+        bricks[6][5].status == 0 &&
+        bricks[7][5].status == 0 &&
+        bricks[8][5].status == 0 &&
+        bricks[9][5].status == 0 &&
+        bricks[10][5].status == 0 &&
+        bricks[11][5].status == 0 &&
+        bricks[12][5].status == 0 &&
+        bricks[13][5].status == 0){
+        score += 25;
+        rowThreeCleared = true;
+    }
+}
+
+function isRowFourCleared(){
+    if(rowFourCleared == true)
+        return;
+    if( bricks[0][4].status == 0 &&
+        bricks[1][4].status == 0 &&
+        bricks[2][4].status == 0 &&
+        bricks[3][4].status == 0 &&
+        bricks[4][4].status == 0 &&
+        bricks[5][4].status == 0 &&
+        bricks[6][4].status == 0 &&
+        bricks[7][4].status == 0 &&
+        bricks[8][4].status == 0 &&
+        bricks[9][4].status == 0 &&
+        bricks[10][4].status == 0 &&
+        bricks[11][4].status == 0 &&
+        bricks[12][4].status == 0 &&
+        bricks[13][4].status == 0){
+        score += 25;
+        rowFourCleared = true;
+    }
+}
+
+function isRowFiveCleared(){
+    if(rowFiveCleared == true)
+        return;
+    if( bricks[0][3].status == 0 &&
+        bricks[1][3].status == 0 &&
+        bricks[2][3].status == 0 &&
+        bricks[3][3].status == 0 &&
+        bricks[4][3].status == 0 &&
+        bricks[5][3].status == 0 &&
+        bricks[6][3].status == 0 &&
+        bricks[7][3].status == 0 &&
+        bricks[8][3].status == 0 &&
+        bricks[9][3].status == 0 &&
+        bricks[10][3].status == 0 &&
+        bricks[11][3].status == 0 &&
+        bricks[12][3].status == 0 &&
+        bricks[13][3].status == 0){
+        score += 25;
+        rowFiveCleared = true;
+    }
+}
+
+function isRowSixCleared(){
+    if(rowSixCleared == true)
+        return;
+    if( bricks[0][2].status == 0 &&
+        bricks[1][2].status == 0 &&
+        bricks[2][2].status == 0 &&
+        bricks[3][2].status == 0 &&
+        bricks[4][2].status == 0 &&
+        bricks[5][2].status == 0 &&
+        bricks[6][2].status == 0 &&
+        bricks[7][2].status == 0 &&
+        bricks[8][2].status == 0 &&
+        bricks[9][2].status == 0 &&
+        bricks[10][2].status == 0 &&
+        bricks[11][2].status == 0 &&
+        bricks[12][2].status == 0 &&
+        bricks[13][2].status == 0){
+        score += 25;
+        rowSixCleared = true;
+    }
+}
+
+function isRowSevenCleared(){
+    if(rowSevenCleared == true)
+        return;
+    if( bricks[0][1].status == 0 &&
+        bricks[1][1].status == 0 &&
+        bricks[2][1].status == 0 &&
+        bricks[3][1].status == 0 &&
+        bricks[4][1].status == 0 &&
+        bricks[5][1].status == 0 &&
+        bricks[6][1].status == 0 &&
+        bricks[7][1].status == 0 &&
+        bricks[8][1].status == 0 &&
+        bricks[9][1].status == 0 &&
+        bricks[10][1].status == 0 &&
+        bricks[11][1].status == 0 &&
+        bricks[12][1].status == 0 &&
+        bricks[13][1].status == 0){
+        score += 25;
+        rowSevenCleared = true;
+    }
+}
+
+function isRowEightCleared(){
+    if(rowEightCleared == true)
+        return;
+    if( bricks[0][0].status == 0 &&
+        bricks[1][0].status == 0 &&
+        bricks[2][0].status == 0 &&
+        bricks[3][0].status == 0 &&
+        bricks[4][0].status == 0 &&
+        bricks[5][0].status == 0 &&
+        bricks[6][0].status == 0 &&
+        bricks[7][0].status == 0 &&
+        bricks[8][0].status == 0 &&
+        bricks[9][0].status == 0 &&
+        bricks[10][0].status == 0 &&
+        bricks[11][0].status == 0 &&
+        bricks[12][0].status == 0 &&
+        bricks[13][0].status == 0){
+        score += 25;
+        rowEightCleared = true;
+    }
+}
+
 function collisionDetection(){
     for(c = 0; c < brickColumnCount; c++){
         for(r = 0; r < brickRowCount; r++){
@@ -148,8 +340,16 @@ function collisionDetection(){
                     dy = -dy;
                     b.status = 0;
                     statusCount += 1;
-                    //this is where I keep track of score.
+                    //this is where I add the score.
                     score += b.val;
+                    isRowOneCleared();
+                    isRowTwoCleared();
+                    isRowThreeCleared();
+                    isRowFourCleared();
+                    isRowFiveCleared();
+                    isRowSixCleared();
+                    isRowSevenCleared();
+                    isRowEightCleared();
                     //this statement is to reduce the size of the paddle if you break through the last green row.
                     isLastRowHit();
                 }
@@ -254,6 +454,9 @@ function draw(){
         dy += 1;
     }*/
 
+   /* if(score % 100 == 0){
+        drawSecondBall();
+    }*/
     x += dx;
     y += dy;
     requestAnimationFrame(draw);
